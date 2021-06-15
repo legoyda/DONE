@@ -1,0 +1,2 @@
+# DONE
+ FastAPI + NEXTjs
