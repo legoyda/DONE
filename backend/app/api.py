@@ -54,9 +54,16 @@ todos = [
 @app.get("/todo", response_model=List[NoteScheme])
 async def get_todos():
     note = db.session.query(Note).all()
-    print(note)
     return note
 
+
+"""
+@app.get("/todo", tags=["todos"])
+async def get_todos() -> dict:
+    return {"data": todos}
+
+
+"""
 
 """
 @app.get("/todo", tags=["todos"])
@@ -82,17 +89,23 @@ async def index():
 @app.post("/todo", tags=["todos"])
 async def add_todo(todo: NoteScheme):
     todos.append(todo)
-    note = Note(id=todo["id"], title=todo["item"])
+    note = Note(title=todo.title)
     db.session.add(note)
     db.session.commit()
+
 
     return {
         "data": {"Todo added."}
     }
 
 
+"""
+
+"""
+
+
 @app.put("/todo/{id}", tags=["todos"])
-async def update_todo(id: int, body: dict, todo: NoteScheme) -> dict:
+async def update_todo(id: int, body: dict) -> dict:
     note = db.session.query(Note).get(id)
     note.title = body["item"]
     db.session.commit()
@@ -105,3 +118,16 @@ async def delete_todo(id: int):
     db.session.delete(note)
     db.session.commit()
     return {"id": id}
+
+
+
+@app.get ("/todo/search", tags=["todos"],response_model=List[NoteScheme])
+async def search (search_string:str):
+    search = "%{}%".format(search_string)
+    todos = db.session.query(Note).filter(Note.title.like(search)).all()
+    return todos
+
+
+
+
+

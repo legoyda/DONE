@@ -1,21 +1,23 @@
 import React from "react";
-import { Heading, Flex, Divider } from "@chakra-ui/react";
+import {Heading, Flex, Divider, Center, IconButton} from "@chakra-ui/react";
 
 const Header = () => {
     return (
+
         <Flex
             as="nav"
             align="center"
+            pos="center"
             justify="space-between"
             wrap="wrap"
-            padding="0.5rem"
-            bg="gray.400"
+            padding="1rem"
+            bg="white"
         >
             <Flex align="center" mr={5}>
-                <Heading as="h1" size="sm">Todos</Heading>
-                <Divider />
+                <Heading as="h2" size="xl" align="center">Notes!</Heading>
             </Flex>
         </Flex>
+
     );
 };
 

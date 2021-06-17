@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
     Box,
     Button,
+    IconButton,
     Flex,
     Input,
     InputGroup,
@@ -13,8 +14,10 @@ import {
     ModalHeader,
     ModalOverlay,
     Stack,
+    Divider,
     Text,
-    useDisclosure
+    Center,
+    useDisclosure, Container, Heading, InputLeftAddon,
 } from "@chakra-ui/react";
 
 const TodosContext = React.createContext({
@@ -46,6 +49,12 @@ export default function Todos() {
     )
 }
 
+
+function SearchItem() {
+
+}
+
+
 function AddTodo() {
     const [item, setItem] = React.useState("")
     const {todos, fetchTodos} = React.useContext(TodosContext)
@@ -55,9 +64,9 @@ function AddTodo() {
     }
 
     const handleSubmit = (event) => {
+
         const newTodo = {
-            "id": todos.length + 1,
-            "item": item
+            "title": item
         }
 
         fetch("http://localhost:8000/todo", {
@@ -68,33 +77,46 @@ function AddTodo() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <InputGroup size="md">
-                <Input
-                    pr="4.5rem"
-                    type="text"
-                    placeholder="Add a todo item"
-                    aria-label="Add a todo item"
-                    onChange={handleInput}
-                />
-            </InputGroup>
-        </form>
+        <Center>
+            <form onSubmit={handleSubmit}>
+                <Box bg="gray.50" width="650px" height="350px" py={100} px={100} _hover={{shadow: "md"}}>
+                    < InputGroup size="md">
+                        <Input
+                            pr="6.5rem"
+                            type="text"
+                            placeholder="Add a todo item"
+                            aria-label="Add a todo item"
+                            onChange={handleInput}
+                        />
+                    </InputGroup>
+                </Box>
+                <Box>
+                    <InputGroup size="sm">
+                        <InputLeftAddon children="Search"/>
+                        <Input placeholder="By"/>
+                    </InputGroup>
+                </Box>
+            </form>
+        </Center>
     )
 }
 
+
 function TodoHelper({item, id, fetchTodos}) {
     return (
-        <Box p={1} shadow="sm">
-            <Flex justify="space-between">
-                <Text mt={4} as="div">
-                    {item}
-                    <Flex align="end">
-                        <UpdateTodo item={item} id={id} fetchTodos={fetchTodos}/>
-                        <DeleteTodo id={id} fetchTodos={fetchTodos}/> {/* new */}
-                    </Flex>
-                </Text>
-            </Flex>
-        </Box>
+        <Center>
+            <Box p={1} shadow="sm">
+                <Flex justify="space-between">
+                    <Text mt={4} as="div">
+                        {item}
+                        <Flex align="end">
+                            <UpdateTodo item={item} id={id} fetchTodos={fetchTodos}/>
+                            <DeleteTodo id={id} fetchTodos={fetchTodos}/> {/* new */}
+                        </Flex>
+                    </Text>
+                </Flex>
+            </Box>
+        </Center>
     )
 }
 
@@ -114,7 +136,7 @@ function UpdateTodo({item, id}) {
     }
 
     return (
-        <>
+        <Center>
             <Button h="1.5rem" size="sm" onClick={onOpen}>Update Todo</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay/>
@@ -139,7 +161,7 @@ function UpdateTodo({item, id}) {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </>
+        </Center>
     )
 }
 
@@ -159,3 +181,52 @@ function DeleteTodo({id}) {
         <Button h="1.5rem" size="sm" onClick={deleteTodo}>Delete Todo</Button>
     )
 }
+
+function SearchItem() {
+    const [item, setItem] = React.useState("")
+    const {todos, fetchTodos} = React.useContext(TodosContext)
+
+    const handleInput = event => {
+        setItem(event.target.value)
+    }
+
+    const handleSubmit = (event) => {
+
+        const newTodo = {
+            "title": item
+        }
+
+        fetch("http://localhost:8000/todo", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(newTodo)
+        }).then(fetchTodos)
+    }
+
+    return (
+        <Center>
+            <form onSubmit={handleSubmit}>
+                <Box bg="gray.50" width="650px" height="350px" py={100} px={100} _hover={{shadow: "md"}}>
+                    < InputGroup size="md">
+                        <Input
+                            pr="6.5rem"
+                            type="text"
+                            placeholder="Add a todo item"
+                            aria-label="Add a todo item"
+                            onChange={handleInput}
+                        />
+                    </InputGroup>
+                </Box>
+                <Box>
+                    <InputGroup size="sm">
+                        <InputLeftAddon children="Search"/>
+                        <Input placeholder="By"/>
+                    </InputGroup>
+                </Box>
+            </form>
+        </Center>
+    )
+}
+
+
+
