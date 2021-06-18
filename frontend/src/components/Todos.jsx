@@ -50,11 +50,6 @@ export default function Todos() {
 }
 
 
-function SearchItem() {
-
-}
-
-
 function AddTodo() {
     const [item, setItem] = React.useState("")
     const {todos, fetchTodos} = React.useContext(TodosContext)
@@ -88,12 +83,6 @@ function AddTodo() {
                             aria-label="Add a todo item"
                             onChange={handleInput}
                         />
-                    </InputGroup>
-                </Box>
-                <Box>
-                    <InputGroup size="sm">
-                        <InputLeftAddon children="Search"/>
-                        <Input placeholder="By"/>
                     </InputGroup>
                 </Box>
             </form>
@@ -182,7 +171,8 @@ function DeleteTodo({id}) {
     )
 }
 
-function SearchItem() {
+/**
+ function SearchItem() {
     const [item, setItem] = React.useState("")
     const {todos, fetchTodos} = React.useContext(TodosContext)
 
@@ -228,5 +218,5 @@ function SearchItem() {
     )
 }
 
-
+ **/
 
