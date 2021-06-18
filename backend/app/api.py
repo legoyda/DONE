@@ -92,12 +92,7 @@ async def add_todo(todo: NoteScheme):
     note = Note(title=todo.title)
     db.session.add(note)
     db.session.commit()
-
-
-    return {
-        "data": {"Todo added."}
-    }
-
+    return todo
 
 """
 
@@ -109,7 +104,7 @@ async def update_todo(id: int, body: dict) -> dict:
     note = db.session.query(Note).get(id)
     note.title = body["item"]
     db.session.commit()
-    return {}
+    return note
 
 
 @app.delete("/todo/{id}", tags=["todos"])
@@ -117,7 +112,7 @@ async def delete_todo(id: int):
     note = db.session.query(Note).get(id)
     db.session.delete(note)
     db.session.commit()
-    return {"id": id}
+    return note
 
 
 
